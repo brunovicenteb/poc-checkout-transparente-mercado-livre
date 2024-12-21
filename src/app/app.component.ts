@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'PaymentCheckout';
+
+    navigateToCreditCard() {
+      window.location.href = '/cartao-credito';
+    }
+
+    navigateToPix() {
+      window.location.href = '/pix';
+    }
 }

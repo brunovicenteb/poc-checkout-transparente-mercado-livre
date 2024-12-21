@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { SafePipe } from 'src/util/safe.pipe';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SafePipe } from 'src/util/safe.pipe';
     BrowserAnimationsModule,
     MatCardModule,
     MatButtonModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

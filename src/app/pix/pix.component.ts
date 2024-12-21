@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { PixModel } from 'src/models/pixModel';
-import { PixService } from 'src/services/Pix.service';
+import { PixRequestModel } from '../../models/pixRequestModel';
+import { PixService } from '../../services/pix.service';
 
 @Component({
   selector: 'app-pix',
@@ -11,40 +11,57 @@ import { PixService } from 'src/services/Pix.service';
 
 export class PixComponent implements OnInit {
   constructor(private pixService: PixService) { }
-
-  ticketURL : SafeResourceUrl;
+  isBuying: boolean = true;
+  randomKey: string;
+  qrCode: string;
+  expirationDate: string;
 
   MockBody = {
-    email : "murillo1047@gmail.com",
-    nome : "Murillo",
-    sobrenome : "Oliveira",
-    produto : "Hamburguer de Siri",
-    valor : 1,
+    email: "casa@docame.com",
+    description: "Mestre Kame",
+    transactionAmount: 1,
   }
 
-  ngOnInit() {
-    this.ticketURL = "";
+  ngOnInit(): void {
+    this.restartPixProcess();
   }
 
-  cobrarComPix() {
-    const pixRequest: PixModel = {
-      email : "murillo1047@gmail.com",
-      nome : "Murillo",
-      sobrenome : "Oliveira",
-      produto : "Hamburguer de Siri",
-      valor : 1,
-      cpf: "560021758-73",
-      notification_url: "https://9f20-2804-71d4-8042-da20-91d-4802-2115-664f.ngrok-free.app/api/pix/pix-response"
+  gerarPix() {
+    const pixRequest: PixRequestModel = {
+      email: "teste@teste.com",
+      description: "Hamburguer de Siri",
+      transactionAmount: 1
     };
 
     this.pixService.cobrarPix(pixRequest).subscribe(
       (response: any) => {
-        this.ticketURL = response.pointOfInteraction.transactionData.ticketUrl;
+        this.isBuying = false;
+        this.randomKey = response.randomKey;
+        this.qrCode = `data:image/jpg;base64,${response.qrCode}`;
+        this.expirationDate = response.dateOfExpiration;
       },
       (error) => {
         console.error('Erro ao cobrar Pix:', error);
       }
     );
+  }
+
+  restartPixProcess() {
+    this.randomKey = undefined;
+    this.qrCode = undefined;
+    this.randomKey = undefined;
+    this.expirationDate = undefined;
+    this.isBuying = true;
+  }
+
+  copyToClipboard(text: string) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text; // Define o texto que será copiado
+    document.body.appendChild(textarea);
+    textarea.select(); // Seleciona o texto
+    document.execCommand('copy'); // Copia para área de transferência
+    document.body.removeChild(textarea); // Remove o textarea temporário
+    alert('Chave copiada para a área de transferência!'); // Notificação simples
   }
 
 }
