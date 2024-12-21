@@ -1,0 +1,24 @@
+<form id="form-checkout">
+  <span>5031 4332 1540 6351</span>
+  <div id="form-checkout__cardNumber" class="container"></div>
+  <span>11/25</span>
+  <div id="form-checkout__expirationDate" class="container"></div>
+  <span>123</span>
+  <div id="form-checkout__securityCode" class="container"></div>
+  <span>APRO</span>
+  <input type="text" id="form-checkout__cardholderName" />
+  <select id="form-checkout__identificationType"></select>
+  <span>12345678909</span>
+  <input type="text" id="form-checkout__identificationNumber" />
+  <span>teste@teste.com</span>
+  <input type="email" id="form-checkout__cardholderEmail" />
+  <select id="form-checkout__issuer"></select>
+  <select id="form-checkout__installments"></select>
+
+  <button type="submit" id="form-checkout__submit">Pagamento</button>
+  <progress value="0" class="progress-bar">Carregando...</progress>
+</form>
+<div *ngIf="transactionResult" class="result-panel">
+  <h3>Resultado do Pagamento</h3>
+  <pre>{{ transactionResult | json }}</pre>
+</div>
